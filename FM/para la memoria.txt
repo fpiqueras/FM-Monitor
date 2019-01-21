@@ -1,0 +1,93 @@
+Reuniones de seguimiento cada lunes a las 11h am
+
+	Se junta el departamento de soluciones, tanto desarrolladores como pruebas y aquellos en proyectos interdepartamentales. Suele empezar con nuestro jefe detallando la situación de la empresa, el sector y las tareas que se avecinan. Después se habla de cada proyecto individualmente para coordinar el equipo y discutir la semana. No solo aporta una perspectiva más allá de la tarea de cada persona, sino que promociona interés por las tareas de los compañeros, en especial aquellos en otro proyectos. 
+
+Ciclos de pruebas
+
+	Los motivos para realizar ciclos de prueba varían dependiendo del estado de la tarjeta en y su fabricación. En los primeros estados de la tarjeta, son los propios desarrolladores que realizan pruebas de debug con emuladores de tarjeta a la par que desarrollan las funcionalidades o comandos. Para cuando se obtenga un prototipo completo, ya se ha pedido fabricar módulos físicos de tarjeta que se usarán para los ciclos de pruebas o envíos de certificación. Una vez que el sistema operativo este terminado, se crea lo que llamamos máscara, y se carga en los módulos o tarjetas. Lo más común es realizar un ciclo de pruebas de debug, donde se prueba la mayor cantidad de pruebas diferentes intentando encontrar la máxima cantidad de fallos para arreglar.
+	
+	A su vez, en este ciclo de debug se puede mandar la tarjeta a los laboratorios para que ellos encuentren también errores. Una vez que se arreglan, se plantea mandar el código del sistema operativo para certificar la seguridad. En los laboratorios se llevan a cabo pruebas de alta tecnología para realizar todo tipo de ataques a la tarjeta, incluyendo aquellos ataques más innovadores.
+	
+	Con el código de seguridad ya certificado, se siguen pasando pruebas funcionales para probar con rigor que se han arreglado los fallos previos, y que además no se han generado otros errores con los cambios. Se aprende de los ciclos de debug al descubrir los fallos, incluídos aquellos que sacan los laboratorios, y se añaden a nuestros test suites para probar con soluciones futuras, además de nuevos test suites que vamos creando, ya sea porque se prueban funcionalidades nuevas, o se crean pruebas nuevas que se consideran aptas y no se llevan acabo en los laboratorios de certificación. Para realizar toda esta labor, se pasa primero un ciclo que denominamos automático, donde pasamos todas las pruebas relevantes en batches automáticos (no suelen requerir la presencia de un operador para ejecutarse), y una vez dado el visto bueno, entonces se procede con un batch manual. Éste último es el más exhaustivo ya que cualquier error no justificado hara que la tarjeta no se pueda certificar y sacar al mercado. Se pasan además de las pruebas automáticas, otras pruebas que denominamos "manuales", ya que se usan herramientas de pruebas externas con sus propios test suites, y requieren la presencia de un operador para lanzar las pruebas.
+	
+	Una vez que se garantiza la seguridad, y un mínimo de funcionalidad (que las transacciones sean completas y que se empleen los métodos criptográficos en las transacciones), se lleva a cabo otro tipo de pruebas que llamamos de protocolo. No solo la tarjeta debe funciones exactamente como se especifica, sino que además debe cumplir con los protocolos de comunicación ya establecidos y hacerlo bajo unos tiempos. Éstas pruebas son relativamente cortas comparadas con las funcionales, pero se deben pasar multitud de veces, ya que cualquier cambio que se haga podría alterar el comportamiento de la tarjeta, o el tiempo que precisa. Generalmente los cambios a la tarjeta no suelen afectar a las pruebas de protocolo, pero sí que al añadir cambios funcionales, el tiempo de transacción o personalización puede aumentar, y la tarjeta debe mantenerse bajo un máximo. Esta es una parte complicada para los desarrolladores, pero desde el equipo de pruebas analizamos exhaustivamente los tiempos de la tarjeta para ayudar a reducirlos. Las pruebas de tiempos y protocolos se deben pasar en cada ciclo, e incluso a veces varias veces en cada ciclo dependiendo de si ha habido cambios sustanciales o ha habido problemas para pasarlas.
+	
+Empiezo 11/06
+Ciclo 2 ST31G480	15/06
+
+	El primer ciclo de pruebas, el cual estaba ya en curso justo cuando yo entré. Primero fui dado material y documentación acerca de la comunicación entre lector y tarjeta, además de documentos que incluyen especificaciones y casos de prueba para las funcionalidades de cada estándar (VISA, MChipm, Interac, Fido...).
+	
+	El chip ST31G480 se denomina como JPay Trío, debido a la opción multiapplicación que soporta. La mayor diferencia es que pertenece a la familia de las tarjetas java, por lo que tiene una Java Virtual Machine (diferente a la de los ordenadores y adaptada para seguridad)
+
+Con Adrián hasta 20/06	pasando pruebas + codigo UL2ExpertCPA
+	Pruebas PrePaid + MA de adrian
+	
+Lector Duali en WinExpert 25/06 - 07/08
+Compatibilidad de aplicaciones de pruebas a windows 10
+
+	En el trabajo, disponemos de numerosos lectores que tiene un uso preferido para las diferentes aplicaciones (depende del prooveedor o aplicación). Todos nuestros PCs llevan Windows, actualmente la gran mayoría Windows 10 mientras que el resto está en proceso de actualizarse. Una de las tareas es asegurar la compatibilidad de las aplicaciones en Windows 10, ya sea arreglando dependencias de librerías dinámicas que ya no se soportan, o actualizando el código para aquellas aplicaciones que se han desarrollado aquí.
+	
+	Por ejemplo, los lectores usan la librería PC/SC para las comunicaciones entre PC y SmartCard. Existe también algunos lectores que se les denomina trasparentes. Esto se debe a que van por sus propios drivers y llamadas a su API, en vez de la librería de Windows. Algunas aplicaciones con las que trabajamos qeu han sido compradas soportan este tipo de lectores. Mi tarea consiste en desarrollar la hilera de mensajes de protocolo para poder utilizar el lector trasparente Duali, en nuestra aplicación más común para pasar pruebas.
+	
+Aprender proceso de embosado
+
+	Cuando se envían tarjetas de MChip a certificar al laboratorio, nos exigen que para algunos perfiles de personalización, las tarjetas pasen por el proceso de embosado. Esto es sellar lo que vendría a ser el número de la tarjeta y el titular, aunque se hace en su defecto con las letras que ocupen el mayor espacio. Esto se hace para comprobar que aunque las tarjetas se embosen al salir al mercado, la antena no se daña y son capaces de pasar las pruebas de la misma forma.
+
+Ciclo 3-4 ST31G480
+
+Pintar 1000 slc para 03/07
+
+	Una vez que un chip está preparado para ser enviado a certificación, hay que llevar a cabo el proceso de impresión de tarjetas físicas. Eso conlleva pintar/imprimir cada tarjeta con la información necesaria para que el laboratorio identifique el producto y sus particularidades (como perfil de personalización o versión de las especificaciones). Una vez que se tienen físicamente, hay que cargar el sistema operativo y personalizar la tarjeta según todas las imágenes que pide el laboratorio (aquellas que son compatibles dependiendo del ICS de la tarjeta)
+
+Pruebas ST para bugs encontrado en ciclo debug
+
+24/07 Empieza ciclo 1 automático para SLC32PDA348
+Este ciclo de pruebas va a ser un ciclo completo, pero utilizando todos los batches automáticos que tengamos. Para las pruebas que no haya batches automáticos, las pasaremos manualmente. Una vez acabado este ciclo, se enviará la máscara a Serma (Seguridad) y, posteriormente, pasaremos otro ciclo completo previo a la certificación funcional, pasando manualmente las pruebas que se han pasado con batches automáticos.
+
+
+
+07/08 Ciclo 2 SLC32PDA348
+
+Crypto Dúo Dual con Chip SLC32PDA348.
+ Este ciclo de pruebas va a ser el definitivo, aquí ya no se nos puede escapar nada porque será la máscara que enviaremos a los laboratorios para la Certificación Funcional (UL y Fime) y de Seguridad (Serma, para revisión).
+
+ Seguimiento de envios, de ex-alumnos
+Búsqueda de proveedores de lectoras y compra	19/09
+Búsqueda y compra de proveedores para impresoras de tarjetas y 
+ 
+Pintar, y preparar FOIL y DDA
+ 
+Scripts App life cycle data, tiempos de perso, ipt propietario dck
+ 
+19/09 Ciclo 4 ST31G480
+ 
+Se ha añadido como novedad un criterio de prioridad a la hora de ejecución de las pruebas, de este modo, vamos a intentar mejorar en nuestra capacidad para la detección de incidencias y así ser más eficientes. Por ello, se han establecido tres criterios de prioridad, siendo las pruebas más propensas a fallos, ya sean por indecencias en máscaras anteriores o por nuevas modificaciones, las más prioritarias. 
+
+
+
+Puliendo mejoras para guias de uso (ICCSolution, SmartCardManager, Embosadora, PersoBuilder)
+
+	Justo a los repositorio de cada apliación o instalable guardamos una copia de un documento guía. Éste no solo ayuda a la instalación configuración interna de la herramieta, sino también la ejecución para aquellos poco expertos con la aplicación. y asea agentes externos o compañeros dentro de la empresa. Es por eso que incluyo cuatro añadidos para cada aplicación que ha sido mejoraada (como ICC2Expert y WinExpert).
+
+Comparativa de tiempos Crypto Duo Dual SLC32PDA348, RFO y JPay ST31G480 (16/10)
+
+	Debido a algunos inconsistencias que hemos tenido con la antena de nuestro lector dedicado, estaba empleando mi pórtato 
+
+Métricas de Ciclos de Pruebas 2018 (17/10)
+
+	Además, tenemos un registro centralizado de las pruebas que se han pasado por año añadiendo el tiempo dedicado a ellas. Para ello usamos la invorfmación que se aporta cuando se pasan pruebas para sacar las gráficas de rendimiento comparado con las previas mediciones. Es mi labor mantener al día este documento según se van realizando ciclos de prueba.
+	
+Personalizaciones CPACE
+
+	CPACE (Common Payment Application Contactless Extended) son las especificaciones para tarjetas con interfaz sin contactos, o interfaz dual (ambas interfaces). Ésta describe la funcionalidad rigurosamente, y al igual que VISA o MChip rige el comportamiento tanto de las tarjetas como de los lectores o sustitutos móbiles. A diferencia de sus contrapartes, CPACE es un esquema de pago nuevo e independiente creado por ECPC (European Card Payment Cooperation) con la idea de ser integrado en los diferentes esquemas nacionales.
+	
+	Advantis es el primero en crear una tarjeta CPACE funcional (prototipo). Es por eso que realizamos lo que se llaman pruebas de concepto, donde trabajamos en el nuestra solución prototipo para hacer demostraciones a las entidades bancarias, entre ellas algunas como Cartes Bancaires y Bancontact, como también la española stmp, que son entitades que han participado en el desarollo de las especificaciones y quieren impulsar el nuevo esquema a nivel europeo.
+	
+	La primera de las pruebas de concepto consiste en hacer demostraciones con una tarjeta que contenga una aplicación de CPACE y realizar transacciones. Para ello, mientras que se desarrollan test suites oficiales de CPACE (que certificarían el comportamiento de la tarjeta), en Advantis estamos haciendo pruebas propietarias y desarrollando perfiles de tarjetas para tanto testear las funcionalidades, como hacer demostraciones. Entre las labores a realizar, yo he sido encomendado en crear y alterar personalizaciones de imágenes de CPACE para tarjetas que se usan en pruebas o se personalizan para pruebas externas o demos en conferencias. Según el sistema operativo de la tarjeta avanza y cambia, los parámetros de personalización deben cambiar a su vez.
+	
+
+	
+
+Mejoras de aplicacion del Gestock
+Mejoras para WinExpert
+ 
